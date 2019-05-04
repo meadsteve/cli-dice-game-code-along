@@ -7,6 +7,7 @@ const run = async () => {
             name: "playerCount",
             type: "number",
             message: "How many players are there?",
+            validate: (input) => isNaN(input) ? "you must enter a number" : true,
         },
     ]);
     console.log(answers);
