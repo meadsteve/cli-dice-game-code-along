@@ -1,8 +1,7 @@
 const inquirer = require("inquirer");
 
-const run = async () => {
-    console.log("Hello. Let's play a game of liar's dice.");
-    let answers = await inquirer.prompt([
+const setupGame = async () => {
+    let {playerCount} = await inquirer.prompt([
         {
             name: "playerCount",
             type: "number",
@@ -10,7 +9,25 @@ const run = async () => {
             validate: (input) => isNaN(input) ? "you must enter a number" : true,
         },
     ]);
-    console.log(answers);
+
+    let players = [];
+    for (let i = 1; i <= playerCount; i++) {
+        let player = await inquirer.prompt([
+            {
+                name: "name",
+                type: "input",
+                message: `Player ${i} name?`,
+            },
+        ]);
+        players.push(player)
+    }
+    return players
+};
+
+const run = async () => {
+    console.log("Hello. Let's play a game of liar's dice.");
+    let players = await setupGame();
+    console.log(players);
 };
 
 run();
