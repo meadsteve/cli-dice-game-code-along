@@ -21,13 +21,20 @@ const setupGame = async () => {
         ]);
         players.push(player)
     }
-    return players
+    return {
+        players: players,
+        active_player_index: 0
+    }
 };
 
 const run = async () => {
-    console.log("Hello. Let's play a game of liar's dice.");
-    let players = await setupGame();
-    console.log(players);
+    console.log("Hello. Let's play a game of dice.");
+    let game = await setupGame();
+    while (game.players.length > 1) {
+
+    }
+    let winner = game.players.pop();
+    console.log(`${winner.name} has won!`)
 };
 
 run();
