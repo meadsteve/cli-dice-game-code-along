@@ -39,6 +39,15 @@ const moveToNextPlayer = (game) => {
 const takeTurn = async (game) => {
     const player = getCurrentPlayer(game);
     console.log(`${player.name} it's your turn`);
+    let {numberOfDice} = await inquirer.prompt([
+        {
+            name: "numberOfDice",
+            type: "number",
+            message: "How many dice would you like to roll?",
+            validate: (input) => isNaN(input) ? "you must enter a number" : true,
+        },
+    ]);
+    console.log(`You wanted to roll ${numberOfDice}`);
     game = moveToNextPlayer(game);
     return game;
 };
