@@ -20,6 +20,7 @@ const setupGame = async () => {
                 message: `Player ${i} name?`,
             },
         ]);
+        player.score = 0;
         players.push(player)
     }
     return {
@@ -30,6 +31,11 @@ const setupGame = async () => {
 
 const getCurrentPlayer = (game) => {
     return game.players[game.active_player_index];
+};
+
+const addPointsToCurrentPlayer = (game, points) => {
+    game.players[game.active_player_index].score += points;
+    return game;
 };
 
 const moveToNextPlayer = (game) => {
@@ -45,7 +51,7 @@ const rollDice = async (numberOfDice) => {
 
 const takeTurn = async (game) => {
     const player = getCurrentPlayer(game);
-    console.log(`${player.name} it's your turn`);
+    console.log(`${player.name} it's your turn. You have ${player.score} points`);
     const {numberOfDice} = await inquirer.prompt([
         {
             name: "numberOfDice",
@@ -54,9 +60,14 @@ const takeTurn = async (game) => {
             validate: (input) => isNaN(input) ? "you must enter a number" : true,
         },
     ]);
+
     console.log(`You wanted to roll ${numberOfDice}`);
+
     const result = await rollDice(numberOfDice);
     console.log(result);
+    const points = result.reduce((total, x) => total + x);
+    game = addPointsToCurrentPlayer(game, points);
+
     game = moveToNextPlayer(game);
     return game;
 };
