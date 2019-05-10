@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+const axios = require("axios");
 
 const setupGame = async () => {
     let {playerCount} = await inquirer.prompt([
@@ -36,10 +37,16 @@ const moveToNextPlayer = (game) => {
     return game;
 };
 
+const rollDice = async (numberOfDice) => {
+    return axios.get(`http://roll.diceapi.com/json/${numberOfDice}d6`)
+        .then(result => result.data.dice)
+        .then(dice => dice.map(d => d.value));
+};
+
 const takeTurn = async (game) => {
     const player = getCurrentPlayer(game);
     console.log(`${player.name} it's your turn`);
-    let {numberOfDice} = await inquirer.prompt([
+    const {numberOfDice} = await inquirer.prompt([
         {
             name: "numberOfDice",
             type: "number",
@@ -48,6 +55,8 @@ const takeTurn = async (game) => {
         },
     ]);
     console.log(`You wanted to roll ${numberOfDice}`);
+    const result = await rollDice(numberOfDice);
+    console.log(result);
     game = moveToNextPlayer(game);
     return game;
 };
