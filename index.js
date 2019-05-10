@@ -38,6 +38,11 @@ const addPointsToCurrentPlayer = (game, points) => {
     return game;
 };
 
+const removeActivePlayer = (game) => {
+    game.players.splice(game.active_player_index, 1);
+    return game;
+};
+
 const moveToNextPlayer = (game) => {
     game.active_player_index = (game.active_player_index + 1) % game.players.length;
     return game;
@@ -65,10 +70,16 @@ const takeTurn = async (game) => {
 
     const result = await rollDice(numberOfDice);
     console.log(result);
-    const points = result.reduce((total, x) => total + x);
-    game = addPointsToCurrentPlayer(game, points);
 
-    game = moveToNextPlayer(game);
+    if (result.some(d => d === 6)) {
+        console.log("Sorry :-( you rolled a 6. You're out");
+        game = removeActivePlayer(game);
+    } else {
+        const points = result.reduce((total, x) => total + x);
+        game = addPointsToCurrentPlayer(game, points);
+        game = moveToNextPlayer(game);
+    }
+
     return game;
 };
 
