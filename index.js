@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const axios = require("axios");
+const chalk = require("chalk");
 
 const setupGame = async () => {
     let {playerCount} = await inquirer.prompt([
@@ -53,7 +54,7 @@ const removeLowScoringPlayers = (game) => {
     const lowScorers = game.players.filter(p => p.score <= maxScore - 25);
     if (lowScorers.length !== 0) {
         game.players = game.players.filter(p => p.score > maxScore - 25);
-        console.log("These players fell behind and are out");
+        console.log(chalk.red("These players fell behind and are out"));
         console.log(lowScorers.map(p => p.name));
     } else {
         console.log("Everyone had enough points to stay in the game")
@@ -99,7 +100,7 @@ const takeTurn = async (game) => {
     console.log(result);
 
     if (result.some(d => d === 6)) {
-        console.log("Sorry :-( you rolled a 6. You're out");
+        console.log(chalk.redBright("Sorry :-( you rolled a 6. You're out"));
         game = removeActivePlayer(game);
     } else {
         const points = result.reduce((total, x) => total + x);
@@ -117,7 +118,7 @@ const run = async () => {
         game = updateRound(game);
     }
     let winner = game.players.pop();
-    console.log(`${winner.name} has won!`)
+    console.log(chalk.greenBright(`${winner.name} has won!`));
 };
 
 run();
