@@ -44,7 +44,28 @@ const removeActivePlayer = (game) => {
 };
 
 const moveToNextPlayer = (game) => {
-    game.active_player_index = (game.active_player_index + 1) % game.players.length;
+    game.active_player_index = (game.active_player_index + 1);
+    return game;
+};
+
+const removeLowScoringPlayers = (game) => {
+    const maxScore = highestScore(game);
+    const lowScorers = game.players.filter(p => p.score <= maxScore - 25);
+    if (lowScorers.length !== 0) {
+        game.players = game.players.filter(p => p.score > maxScore - 25);
+        console.log("These players fell behind and are out");
+        console.log(lowScorers.map(p => p.name));
+    } else {
+        console.log("Everyone had enough points to stay in the game")
+    }
+    return game;
+};
+
+const updateRound = (game) => {
+    if (game.active_player_index >= game.players.length) {
+        game.active_player_index = 0;
+        game = removeLowScoringPlayers(game);
+    }
     return game;
 };
 
@@ -85,7 +106,6 @@ const takeTurn = async (game) => {
         game = addPointsToCurrentPlayer(game, points);
         game = moveToNextPlayer(game);
     }
-
     return game;
 };
 
@@ -94,6 +114,7 @@ const run = async () => {
     let game = await setupGame();
     while (game.players.length > 1) {
         game = await takeTurn(game);
+        game = updateRound(game);
     }
     let winner = game.players.pop();
     console.log(`${winner.name} has won!`)
