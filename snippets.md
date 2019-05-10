@@ -15,5 +15,12 @@ let {someNumber} = await inquirer.prompt([
             message: "How number?",
             validate: (input) => isNaN(input) ? "you must enter a number" : true,
         },
-    ])
+    ]);
+```
+
+## fetch some dice from the api
+```javascript
+    return axios.get(`http://roll.diceapi.com/json/${numberOfDice}d6`)
+        .then(result => result.data.dice)
+        .then(dice => dice.map(d => d.value));
 ```
