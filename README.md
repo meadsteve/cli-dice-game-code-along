@@ -2,6 +2,10 @@
 
 We'll build an interactive CLI for playing a dice game.
 
+## Requirements
+* Node >= 10
+* An IDE or text editor you're happy using.
+
 ## Tech
 We'll use the following NPM libraries:
 
