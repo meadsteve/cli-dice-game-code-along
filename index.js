@@ -54,9 +54,15 @@ const rollDice = async (numberOfDice) => {
         .then(dice => dice.map(d => d.value));
 };
 
+const highestScore = (game) => {
+    const scores = game.players.map(player => player.score);
+    return Math.max(...scores);
+};
+
 const takeTurn = async (game) => {
     const player = getCurrentPlayer(game);
     console.log(`${player.name} it's your turn. You have ${player.score} points`);
+    console.log(`The current highest score is ${highestScore(game)}`);
     const {numberOfDice} = await inquirer.prompt([
         {
             name: "numberOfDice",
