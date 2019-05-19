@@ -1,5 +1,11 @@
 # Useful snippets
 
+## Npm installs
+```bash
+npm install inquirer
+npm install axios
+```
+
 ## imports
 ```javascript
 const inquirer = require("inquirer");
