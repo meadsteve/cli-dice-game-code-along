@@ -25,3 +25,7 @@ Both of these libraries return promises so the code will be  a little simpler to
 * If they roll any 6s and the player is out.
 * At the end of the round any player who falls 25 points behind the leader is out.
 * Repeat until only one player is left. This player wins.
+
+## Example solution
+An example solution can be found on the solution branch here 
+https://github.com/meadsteve/cli-dice-game-code-along/blob/solution/index.js
