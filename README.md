@@ -7,6 +7,9 @@ We'll build an interactive CLI for playing a dice game.
 * An IDE or text editor you're happy using.
 * An internet connection (for npm downloads).
 
+## Presentation
+To go along with this repo: https://docs.google.com/presentation/d/1CuXuc9-akRitDGNkvB-fH2wUQTvgbaGxxBm-07u3fyE/edit?usp=sharing
+
 ## Tech
 We'll use the following NPM libraries:
 
